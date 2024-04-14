@@ -162,3 +162,7 @@ cython_debug/
 node_modules/
 
 .DS_Store
+
+Pipfile
+Pipfile.lock
+.idea/

@@ -6,18 +6,16 @@ import dotenv
 import json
 
 # import dotenv
-dotenv.load_dotenv()
-
- 
+dotenv.load_dotenv(dotenv_path="../../.env")
 
 # Assign the API version (DALL-E is currently supported for the 2023-06-01-preview API version only)
 client = AzureOpenAI(
-  api_key=os.environ['AZURE_OPENAI_KEY'],  # this is also the default, it can be omitted
-  api_version = "2023-12-01-preview",
-  azure_endpoint=os.environ['AZURE_OPENAI_ENDPOINT'] 
-  )
+    api_key=os.environ['AZURE_OPENAI_KEY'],  # this is also the default, it can be omitted
+    api_version="2023-12-01-preview",
+    azure_endpoint=os.environ['AZURE_OPENAI_ENDPOINT']
+)
 
-model = os.environ['AZURE_OPENAI_DEPLOYMENT']
+model = os.environ['AZURE_OPENAI_IMAGE_GENERATION_DEPLOYMENT']
 
 disallow_list = "swords, violence, blood, gore, nudity, sexual content, adult content, adult themes, adult language, adult humor, adult jokes, adult situations, adult"
 
@@ -38,13 +36,12 @@ prompt = f"""{meta_prompt}
 Generate monument of the Arc of Triumph in Paris, France, in the evening light with a small child holding a Teddy looks on.
 """
 
-
 try:
     # Create an image by using the image generation API
 
     result = client.images.generate(
         model=model,
-        prompt=prompt,    # Enter your prompt text here
+        prompt=prompt,  # Enter your prompt text here
         size='1024x1024',
         n=1
     )
@@ -71,13 +68,12 @@ try:
     image.show()
 
 # catch exceptions
-#except client.error.InvalidRequestError as err:
+# except client.error.InvalidRequestError as err:
 #    print(err)
 
 finally:
     print("completed!")
 # ---creating variation below---
-
 
 
 # response = openai.Image.create_variation(

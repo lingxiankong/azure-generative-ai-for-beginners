@@ -11,8 +11,10 @@ import googleapiclient.discovery
 import googleapiclient.errors
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import WebVTTFormatter
+from dotenv import load_dotenv
 
 
+load_dotenv(dotenv_path="../../.env")
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -81,6 +83,8 @@ def gen_metadata(playlist_item):
     # save the metadata as a .json file
     json.dump(metadata, open(filename, "w", encoding="utf-8"))
 
+    logger.info(f"Finished saving metadata for video {video_id}")
+
 
 def get_transcript(playlist_item, counter_id):
     """Get the transcript for a video"""
@@ -93,6 +97,8 @@ def get_transcript(playlist_item, counter_id):
         logger.debug("Skipping video %d, %s", counter_id, video_id)
         return False
 
+    logger.info(f"Start getting transcript for video {video_id}")
+
     try:
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         # remove \n from the text
@@ -104,6 +110,8 @@ def get_transcript(playlist_item, counter_id):
         with open(filename, "w", encoding="utf-8") as file:
             json.dump(transcript, file, indent=4, ensure_ascii=False)
             # file.write(transcript)
+
+        logger.info(f"Finished getting transcript for video {video_id}")
 
     except Exception as exception:
         logger.debug(exception)
@@ -159,6 +167,8 @@ while request:
         request = None
 
     logger.info("Total transcriptions to be download: %s", q.qsize())
+
+logger.info(f"Finished retrieving playlist items. Start processing...")
 
 start_time = time.time()
 

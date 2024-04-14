@@ -15,7 +15,6 @@ export TRANSCRIPT_BUCKET_MINUTES=3
 mkdir -p $TRANSCRIPT_FOLDER/output
 
 python3 transcript_download.py -f $TRANSCRIPT_FOLDER -p PLlrxD0HtieHi0mwteKBOfEeOYf0LJU4O1
-
 python3 transcript_enrich_speaker.py -f $TRANSCRIPT_FOLDER
 python3 transcript_enrich_bucket.py -f $TRANSCRIPT_FOLDER -m $TRANSCRIPT_BUCKET_MINUTES
 python3 transcript_enrich_summaries.py -f $TRANSCRIPT_FOLDER
